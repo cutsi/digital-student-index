@@ -1,0 +1,18 @@
+{%extends "users/base.html"%}
+{% load crispy_forms_tags%}
+
+{%block content%} 
+<h2>COURSES</h2><br>
+<h3>Ime predmeta  /   Kod</h3>
+{%for course in courses%}
+    <form method = "POST">
+        {% csrf_token %}
+        <fieldset class = "form-group">
+            {{form.as_p}}
+        </fieldset>
+        <p><input type = text value = "{{course.ime}}" name = course_ime readonly><input type = text value = "{{course.kod}}" name = course_kod readonly> <input type="submit" class="btn" value="Details" name="Details"> <input type="submit" class="btn" value="Edit" name="Edit">  </p>
+        
+        ____________________________________________________________
+    </form>
+{%endfor%}
+{%endblock content%}

@@ -1,0 +1,17 @@
+{%extends "users/base.html"%}
+{% load crispy_forms_tags%}
+
+{%block content%} 
+  <div class="col-md-4">
+    <div class="content-section">
+      <h3>DETAILS</h3>
+      <p>Ime predmeta: <input type = text value = '{{predmet.ime}}' name = ime readonly></p>
+  <p>Kod: <input type = text value = '{{predmet.kod}}' name = kod readonly></p>
+  <p>Program: <input type = text value = '{{predmet.program}}' name = program readonly></p>
+  <p>Bodovi: <input type = text value = '{{predmet.bodovi}}' name = bodovi readonly> ects</p>
+  <p>Redovni: <input type = text value = '{{predmet.sem_redovni}}' name = redovni readonly> semestar</p>
+  <p>Izvanredni: <input type = text value = '{{predmet.sem_izvanredni}}' name = izvanredni readonly> semestar</p>
+  <p>Izborni: <input type = text value = '{{predmet.izborni}}' name = izborni readonly> </p>
+    </div>
+  </div>
+{%endblock content%}

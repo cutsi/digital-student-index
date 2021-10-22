@@ -1,0 +1,21 @@
+{%extends "users/base.html"%}
+{% load crispy_forms_tags%}
+
+{%block content%} 
+<div class="col-md-4">
+    <div class="content-section">
+        <form method = "POST">
+            {% csrf_token %}
+            <h3>EDIT</h3>
+          <p>Ime predmeta: <input type = text value = '{{predmet.ime}}' name = ime></p>
+          <p>Kod: <input type = text value = '{{predmet.kod}}' name = kod></p>
+          <p>Program: <input type = text value = '{{predmet.program}}' name = program></p>
+          <p>Bodovi: <input type = text value = '{{predmet.bodovi}}' name = bodovi> ects</p>
+          <p>Redovni: <input type = text value = '{{predmet.sem_redovni}}' name = redovni> semestar</p>
+          <p>Izvanredni: <input type = text value = '{{predmet.sem_izvanredni}}' name = izvanredni> semestar</p>
+          <p>Izborni: <input type = text value = '{{predmet.izborni}}' name = izborni> </p>
+          <input type="submit" class="btn" value="save" name="edited">
+        </form>
+    </div>
+  </div>
+{%endblock content%}

@@ -1,0 +1,20 @@
+{%extends "users/base.html"%}
+{% load crispy_forms_tags%}
+
+{%block content%} 
+<h2>STUDENTS</h2>
+{% if flag == 1 %}
+    <a href="{% url 'upisni_list' %}?name={{ users.email }}">{{  users.email }}</a>
+{%endif%}
+{% if flag == 0 %}
+    {%for user in users%}
+        {%if user.role == 'student' and user.is_staff == 0 and user.is_active == 1 and user.is_superuser == 0%}
+        <div>
+            <a href="{% url 'upisni_list' %}?name={{ user.email }}">{{  user.email }}</a>
+
+        </div>
+        <br>
+        {%endif%}
+    {%endfor%}
+{%endif%}
+{%endblock content%}

@@ -1,0 +1,112 @@
+{%extends "users/base.html"%}
+{% load crispy_forms_tags%}
+
+{%block content%} 
+
+    <style>
+.row {
+  display: block;
+}
+
+.width-6 {
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  float: left;
+}
+
+.body {
+  width: 100%;
+}</style>
+
+<div class="row">
+    <div style="background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow:scroll; height:250px;">
+        <h3>Predmeti</h3>
+        {% for neupisan_predmet in neupisani%}
+        <form method='POST'>
+          {% csrf_token %}
+          <fieldset class = "form-group">
+            {{form.as_p}}
+        </fieldset>
+            <input type = hidden value = "{{neupisan_predmet.id}}" name = "neupisan_predmet" readonly>
+            <input type = hidden value = "{{student.id}}" name = "student_id" readonly>
+            <input type = text width = 500px value = "{{neupisan_predmet.ime}}" readonly>
+            <input type = text width = 500px value = "Semestar redovni: {{neupisan_predmet.sem_redovni}}" readonly>
+            <input type = text width = 500px value = "Semestar izvanredni: {{neupisan_predmet.sem_izvanredni}}" readonly> 
+            <input type="submit" class="btn" value="+" name="add_predmet"><br>
+      </form>
+      
+        {%endfor%}
+        
+    </div>
+  </div>   
+  <div class="row">
+    <div style="background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow:scroll; height:350px;">
+    
+        <h3>Upisi za studenta {{student.email}}</h3>
+      
+        {%for broj_semestra in broj_semestara%}
+        
+          <h4>Semestar: {{broj_semestra}}<br></h4>
+          {%for predmet in upisani%}
+          <form method="POST">
+            {% csrf_token %}
+            {%if student.status == 'redovni'%}
+              {% if predmet.sem_redovni == broj_semestra%}
+                {{predmet.ime}}
+                <input type = hidden value = "{{predmet.id}}" name = "upisan_predmet_id" readonly>
+                <input type = hidden value = "{{student.id}}" name = "student_id" readonly>
+                {%for row in upisni_list_studenta%}
+                  {%if student.id == row.student_id_id and predmet.id == row.predmet_id_id%}
+                    {%if row.status == "passed"%}
+                      <input type="submit" value="✅" class="btn btn-success" disabled /><br>
+                    {%endif%}
+                    {%if row.status == "enrolled"%}
+                      <input type="submit" class="btn" value="X" name="remove_predmet">
+                      <input type="submit" class="btn" value="✓" name="polozen_predmet"><br>
+                    {%endif%}
+                  {%endif%}
+                {%endfor%}
+                
+              {%endif%}
+            {%endif%}
+
+            {%if student.status == 'izvanredni'%}
+              {% if predmet.sem_izvanredni == broj_semestra%}
+                {{predmet.ime}}
+                {%for row in upisni_list_studenta%}
+                {%if student.id == row.student_id_id and predmet.id == row.predmet_id_id%}
+                  {%if row.status == "passed"%}
+                    <input type="submit" value="✅" class="btn btn-success" disabled /><br>
+                  {%endif%}
+                  {%if row.status == "enrolled"%}
+                    <input type = hidden value = {{predmet.id}} name = "upisan_predmet_id" readonly>
+                    <input type = hidden value = "{{student.id}}" name = "student_id" readonly>
+                    <input type="submit" class="btn" value="X" name="remove_predmet">
+                    <input type="submit" class="btn" value="✓" name="polozen_predmet"><br>
+                  {%endif%}
+                {%endif%}
+              {%endfor%}
+              {%endif%}
+            {%endif%}
+
+          {%endfor%}
+        </form>
+        {%endfor%}
+        
+    </div> 
+</div> 
+
+
+
+{%endblock content%}
